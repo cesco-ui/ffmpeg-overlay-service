@@ -1,13 +1,11 @@
-FROM jrottenberg/ffmpeg:4.3-alpine
+FROM python:3.9-slim
 
 WORKDIR /app
 
-# Copy files into the container
-COPY overlay.png /app/overlay.png
-COPY run.sh /app/run.sh
+COPY app.py overlay.png ./
 
-# Make sure run.sh is executable
-RUN chmod +x /app/run.sh
+RUN pip install flask
 
-# Run the overlay script by default
-ENTRYPOINT ["/app/run.sh"]
+EXPOSE 5000
+
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
